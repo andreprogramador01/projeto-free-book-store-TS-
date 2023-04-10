@@ -1,6 +1,7 @@
-import bookServices from "../services/bookServices.js";
+import bookServices from "../services/bookServices";
+import {Request,Response,NextFunction} from 'express'
 
-async function create(req, res, next) {
+async function create(req : Request, res:Response, next:NextFunction) {
   const { name, author } = req.body;
 
   const { id } = res.locals.user;
@@ -13,7 +14,7 @@ async function create(req, res, next) {
   }
 }
 
-async function findAll(req, res, next) {
+async function findAll(req : Request, res:Response, next:NextFunction) {
   try {
     const books = await bookServices.findAll();
 
@@ -23,9 +24,9 @@ async function findAll(req, res, next) {
   }
 }
 
-async function takeBook(req, res, next) {
+async function takeBook(req : Request, res:Response, next:NextFunction) {
   const { id } = res.locals.user;
-  const bookId = +req.params.id;
+  const bookId:Number = +req.params.id;
   try {
     await bookServices.takeBook(id, bookId);
     return res.sendStatus(201);
@@ -34,7 +35,7 @@ async function takeBook(req, res, next) {
   }
 }
 
-async function findAllMyBooks(req, res, next) {
+async function findAllMyBooks(req : Request, res:Response, next:NextFunction) {
   const { id } = res.locals.user;
   try {
     const books = await bookServices.findAllMyBooks(id);

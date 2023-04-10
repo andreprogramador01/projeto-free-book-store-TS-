@@ -1,7 +1,12 @@
-import errors from "../errors/index.js";
-import bookRepositories from "../repositories/bookRepositories.js";
+import errors from "../errors/index";
+import bookRepositories from "../repositories/bookRepositories";
 
-async function create({ name, author, userId }) {
+interface User{
+  name:string,
+  author:string,
+  userId:string
+}
+async function create({ name, author, userId }:User) {
   const {
     rows: [book],
   } = await bookRepositories.findByName(name);
@@ -16,23 +21,23 @@ async function findAll() {
   return rows;
 }
 
-async function takeBook(userId, bookId) {
+async function takeBook(userId:Number, bookId:Number) {
   const {
     rows: [book],
     rowCount,
   } = await bookRepositories.findById(bookId);
-  if (!rowCount) throw notFoundError();
-  if (!book.available) throw conflictError("Book not available");
+  if (!rowCount) throw errors.notFoundError();
+  if (!book.available) throw errors.conflictError("Book not available");
 
   await bookRepositories.updateStatusBook(false, bookId);
   await bookRepositories.takeBook(userId, bookId);
 }
 
-async function findAllMyBooks(userId) {
+async function findAllMyBooks(userId:Number) {
   const { rows: books, rowCount } = await bookRepositories.findAllMyBooks(
     userId
   );
-  if (!rowCount) throw notFoundError();
+  if (!rowCount) throw errors.notFoundError();
   return books;
 }
 

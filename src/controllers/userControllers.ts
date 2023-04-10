@@ -1,6 +1,13 @@
-import userServices from "../services/userServices.js";
+import { NextFunction,Response,Request } from "express";
+import userServices from "../services/userServices";
 
-async function create(req, res, next) {
+
+interface User{
+  name:String,
+  email: String,
+  password:String
+}
+async function create(req:Request, res:Response, next:NextFunction) {
   const { name, email, password } = req.body;
   try {
     await userServices.create({ name, email, password });
@@ -10,7 +17,7 @@ async function create(req, res, next) {
   }
 }
 
-async function signin(req, res, next) {
+async function signin(req:Request, res:Response, next:NextFunction) {
   const { email, password } = req.body;
   try {
     const token = await userServices.signin({ email, password });

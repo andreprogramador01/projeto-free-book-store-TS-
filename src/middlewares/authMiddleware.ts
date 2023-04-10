@@ -1,7 +1,8 @@
-import errors from "../errors/index.js";
-import userRepositories from "../repositories/userRepositories.js";
+import { NextFunction,Response,Request } from "express";
+import errors from "../errors/index";
+import userRepositories from "../repositories/userRepositories";
 
-async function authValidation(req, res, next) {
+async function authValidation(req:Request, res:Response, next:NextFunction) {
   const { authorization } = req.headers;
   const token = authorization?.replace("Bearer ", "");
 

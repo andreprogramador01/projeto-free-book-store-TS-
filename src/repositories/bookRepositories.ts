@@ -1,6 +1,10 @@
-import connectionDb from "../config/database.js";
-
-async function create({ name, author, userId }) {
+import connectionDb from "../config/database";
+interface Book {
+  name: string,
+  author: String,
+  userId: string
+}
+async function create({ name, author, userId }: Book) {
   await connectionDb.query(
     `
         INSERT INTO books (name, author, "userId")
@@ -10,7 +14,7 @@ async function create({ name, author, userId }) {
   );
 }
 
-async function findByName(name) {
+async function findByName(name: String) {
   return await connectionDb.query(
     `
         SELECT * FROM books WHERE name = $1;
@@ -32,7 +36,7 @@ async function findAll() {
   );
 }
 
-async function findById(id) {
+async function findById(id: Number) {
   return await connectionDb.query(
     `
           SELECT * FROM books 
@@ -42,7 +46,8 @@ async function findById(id) {
   );
 }
 
-async function updateStatusBook(status, bookId) {
+
+async function updateStatusBook(status: Boolean, bookId: Number) {
   await connectionDb.query(
     `
       UPDATE books
@@ -53,7 +58,7 @@ async function updateStatusBook(status, bookId) {
   );
 }
 
-async function takeBook(userId, bookId) {
+async function takeBook(userId: Number, bookId: Number) {
   await connectionDb.query(
     `
       INSERT INTO "myBooks" ("userId", "bookId")
@@ -63,7 +68,7 @@ async function takeBook(userId, bookId) {
   );
 }
 
-async function findAllMyBooks(userId) {
+async function findAllMyBooks(userId: Number) {
   return await connectionDb.query(
     `
     SELECT 

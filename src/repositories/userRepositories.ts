@@ -1,6 +1,6 @@
-import connectionDb from "../config/database.js";
+import connectionDb from "../config/database";
 
-async function findByEmail(email) {
+async function findByEmail(email: String) {
   return await connectionDb.query(
     `    
     SELECT * FROM users WHERE email=$1
@@ -9,7 +9,12 @@ async function findByEmail(email) {
   );
 }
 
-async function create({ name, email, password }) {
+interface User {
+  name: string,
+  email: String,
+  password: string
+}
+async function create({ name, email, password }: User) {
   await connectionDb.query(
     `
         INSERT INTO users (name, email, password)
@@ -18,8 +23,11 @@ async function create({ name, email, password }) {
     [name, email, password]
   );
 }
-
-async function createSession({ token, userId }) {
+interface Session {
+  token: String,
+  userId: Number
+}
+async function createSession({ token, userId }: Session) {
   await connectionDb.query(
     `
         INSERT INTO sessions (token, "userId")
@@ -29,7 +37,7 @@ async function createSession({ token, userId }) {
   );
 }
 
-async function findSessionByToken(token) {
+async function findSessionByToken(token: String) {
   return await connectionDb.query(
     `
         SELECT * FROM sessions WHERE token = $1
@@ -38,7 +46,7 @@ async function findSessionByToken(token) {
   );
 }
 
-async function findById(id) {
+async function findById(id: Number) {
   return await connectionDb.query(
     `    
     SELECT * FROM users WHERE id=$1

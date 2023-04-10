@@ -1,15 +1,15 @@
 import { Router } from "express";
-import bookControllers from "../controllers/bookControllers.js";
-import authMiddleware from "../middlewares/authMiddleware.js";
-import { validateSchema } from "../middlewares/schemaValidationMiddleware.js";
-import { bookSchemma } from "../schemas/Book.js";
+import bookControllers from "../controllers/bookControllers";
+import authMiddleware from "../middlewares/authMiddleware";
+import { validateSchema } from "../middlewares/schemaValidationMiddleware";
+import { bookSchemma } from "../schemas/Book";
 
 const bookRoutes = Router();
 
 bookRoutes.post(
   "/",
   authMiddleware.authValidation,
-  validateSchema(bookSchemma),
+ // validateSchema(bookSchemma),
   bookControllers.create
 );
 bookRoutes.get("/", authMiddleware.authValidation, bookControllers.findAll);
