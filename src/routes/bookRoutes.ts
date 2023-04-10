@@ -9,7 +9,7 @@ const bookRoutes = Router();
 bookRoutes.post(
   "/",
   authMiddleware.authValidation,
- // validateSchema(bookSchemma),
+ validateSchema(bookSchemma),
   bookControllers.create
 );
 bookRoutes.get("/", authMiddleware.authValidation, bookControllers.findAll);

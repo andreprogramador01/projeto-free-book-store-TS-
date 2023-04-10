@@ -1,4 +1,4 @@
-import { NextFunction } from "express";
+import { Request,Response,NextFunction } from "express";
 import err from "../errors/index";
 
 export function validateSchema(schema:any) {
